@@ -12,13 +12,13 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
-          <div class="bg-white rounded-2xl shadow-2xl p-6">
+          <div class="bg-white rounded-2xl shadow-2xl md:p-6 p-2" >
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Демонстрация календаря</h2>
 
             <div class="mb-8">
               <Calendar ref="calendarRef" v-model="selectedDate" :locale="selectedLocale"
                 :first-day-of-week="firstDayOfWeek" :min-date="minDate" :max-date="maxDate"
-                :disabled-dates="disabledDates" :highlight-today="highlightToday" @month-change="handleMonthChange"
+                :disabled-dates="disabledDates" :highlight-today="highlightToday" :events="calendarEvents" @month-change="handleMonthChange"
                 @day-select="handleDaySelect" />
             </div>
 
@@ -176,6 +176,28 @@ const disabledDateInput = ref<string>('')
 const highlightToday = ref<boolean>(true)
 const availableLocales = ref<Locale[]>(['ru', 'en', 'fr', 'de'])
 const isSpanishLocaleAdded = ref<boolean>(false)
+const calendarEvents = ref([
+  {
+    date: '2026-01-11',
+    title: 'Важная встреча',
+    description: 'Встреча с командой по проекту'
+  },
+  {
+    date: '2026-01-15',
+    title: 'День рождения',
+    description: 'День рождения друга'
+  },
+  {
+    date: '2026-01-20',
+    title: 'Конференция',
+    description: 'Онлайн конференция по фронтенду'
+  },
+  {
+    date: '2026-02-14',
+    title: 'Выставка',
+    description: 'Посещение выставки технологий'
+  }
+])
 
 const eventLog = ref<Array<{
   message: string

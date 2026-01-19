@@ -1,6 +1,6 @@
 <template>
     <div
-        class="bg-linear-to-br from-emerald-50 via-slate-50 to-teal-50 rounded-2xl p-6 shadow-2xl shadow-emerald-200/50 font-sans transition-all duration-300 mx-auto">
+        class="bg-linear-to-br from-emerald-50 via-slate-50 to-teal-50 rounded-xl md:p-6 p-2 shadow-2xl shadow-emerald-200/50 font-sans transition-all duration-300 mx-auto">
         <div
             class="flex items-center justify-between mb-6 bg-emerald-50/80 px-4 py-3 rounded-xl shadow-inner border border-emerald-100">
             <button @click="handlePrevMonth"
@@ -9,7 +9,10 @@
                 :class="{ 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-emerald-100': isPrevMonthDisabled }"
                 aria-label="Previous month">
                 <span class="transition-transform duration-200 group-hover:-translate-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9.586 4L3 10.586a2 2 0 0 0 0 2.828L9.586 20a2 2 0 0 0 2.18.434l.145-.068A2 2 0 0 0 13 18.586V16h7a2 2 0 0 0 2-2v-4l-.005-.15A2 2 0 0 0 20 8l-7-.001V5.414A2 2 0 0 0 9.586 4"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M9.586 4L3 10.586a2 2 0 0 0 0 2.828L9.586 20a2 2 0 0 0 2.18.434l.145-.068A2 2 0 0 0 13 18.586V16h7a2 2 0 0 0 2-2v-4l-.005-.15A2 2 0 0 0 20 8l-7-.001V5.414A2 2 0 0 0 9.586 4" />
+                    </svg>
                 </span>
             </button>
 
@@ -23,14 +26,17 @@
                 :class="{ 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-emerald-100': isNextMonthDisabled }"
                 aria-label="Next month">
                 <span class="transition-transform duration-200 group-hover:translate-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.089 3.634A2 2 0 0 0 11 5.414L10.999 8H4a2 2 0 0 0-2 2v4l.005.15A2 2 0 0 0 4 16l6.999-.001l.001 2.587A2 2 0 0 0 14.414 20L21 13.414a2 2 0 0 0 0-2.828L14.414 4a2 2 0 0 0-2.18-.434z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12.089 3.634A2 2 0 0 0 11 5.414L10.999 8H4a2 2 0 0 0-2 2v4l.005.15A2 2 0 0 0 4 16l6.999-.001l.001 2.587A2 2 0 0 0 14.414 20L21 13.414a2 2 0 0 0 0-2.828L14.414 4a2 2 0 0 0-2.18-.434z" />
+                    </svg>
                 </span>
             </button>
         </div>
 
-        <div class="grid grid-cols-7 gap-2 mb-6">
+        <div class="grid grid-cols-7 gap-2 mb-2 md:mb-4">
             <span v-for="day in orderedWeekdays" :key="day"
-                class="text-emerald-600 font-bold py-3 text-center text-sm bg-linear-to-r from-emerald-100 to-teal-100 rounded-xl shadow-md border border-emerald-200">
+                class="text-emerald-600 font-bold md:py-3 text-center text-sm bg-linear-to-r from-emerald-100 to-teal-100 rounded-xl shadow-md border border-emerald-200">
                 {{ day }}
             </span>
         </div>
@@ -39,12 +45,12 @@
             <transition :name="slideDirection" mode="out-in" @after-leave="resetSlideDirection">
                 <div :key="`${displayYear}-${displayMonthNumber}`" class="grid grid-cols-7 gap-2">
 
-                    <div v-for="n in daysBeforeFirstDay" :key="`before-${n}`" class="min-h-12 min-w-12"
+                    <div v-for="n in daysBeforeFirstDay" :key="`before-${n}`" class="w-full md:min-h-12 min-h-6 md:min-w-12 min-w-6"
                         aria-hidden="true" />
 
-                    <button v-for="day in daysInDisplayMonth" :key="day" @click="handleDayClick(day)"
-                        :disabled="!isDateSelectable(day)" :class="[
-                            'relative rounded-2xl min-h-12 min-w-12 font-bold text-lg shadow-lg border-2 transition-all duration-300 flex items-center justify-center',
+                    <div v-for="day in daysInDisplayMonth" :key="day" class="relative inline-block">
+                        <button @click="handleDayClick(day)" :disabled="!isDateSelectable(day)" :class="[
+                            'relative rounded-xl w-full md:min-h-12 min-h-6 md:min-w-12 min-w-6 font-bold text-lg shadow-lg border-2 transition-all duration-300 flex items-center justify-center',
                             'focus:outline-none focus:ring-4 focus:ring-emerald-200/60 active:scale-95',
                             {
                                 'bg-linear-to-br from-emerald-50 via-white to-teal-50 text-emerald-800 border-transparent hover:border-emerald-300 hover:shadow-2xl hover:scale-105':
@@ -57,20 +63,36 @@
                                     isToday(day) && !isSelected(day) && isDateSelectable(day)
                             }
                         ]" :aria-label="getDayAriaLabel(day)" :aria-selected="isSelected(day)"
-                        :aria-disabled="!isDateSelectable(day)">
-                        <span class="relative z-10 leading-none">{{ day }}</span>
+                            :aria-disabled="!isDateSelectable(day)" @mouseenter="showPopup(day)"
+                            @mouseleave="hidePopup" @touchstart="handleTouchStart(day)" @touchend="hidePopup" @touchmove="handleTouchMove" @touchcancel="hidePopup">
+                            <span class="relative z-10 leading-none md:text-base text-xs">{{ day }}</span>
+
+                            <div v-if="hasEvents(day)"
+                                class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full">
+                            </div>
 
 
-                        <div v-if="isSelected(day)"
-                            class="absolute inset-0 rounded-2xl bg-linear-to-r from-emerald-400/30 to-teal-400/30 -z-10 opacity-100 blur-sm" />
+                            <div v-if="isSelected(day)"
+                                class="absolute inset-0 rounded-xl bg-linear-to-r from-emerald-400/30 to-teal-400/30 -z-10 opacity-100 blur-sm" />
 
 
-                        <div v-else-if="isDateSelectable(day)"
-                            class="absolute inset-0 rounded-2xl bg-linear-to-r from-emerald-400/20 to-teal-400/20 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
-                    </button>
+                            <div v-else-if="isDateSelectable(day)"
+                                class="absolute inset-0 rounded-xl bg-linear-to-r from-emerald-400/20 to-teal-400/20 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
+                        </button>
+
+                        <div v-if="activeDayWithPopup === day && hasEvents(day)" class="popup-content"
+                            :class="{ 'opacity-100 visible': activeDayWithPopup === day, 'opacity-0 invisible': activeDayWithPopup !== day }">
+                            <div class="font-bold text-emerald-700 mb-1">{{ formatDateForPopup(day) }}</div>
+                            <div v-for="event in getEventsForDay(day)" :key="event.title"
+                                class="text-sm mb-1 last:mb-0">
+                                <div class="font-medium text-gray-800">{{ event.title }}</div>
+                                <div v-if="event.description" class="text-gray-600">{{ event.description }}</div>
+                            </div>
+                        </div>
+                    </div>
 
 
-                    <div v-for="n in daysAfterLastDay" :key="`after-${n}`" class="min-h-12 min-w-12"
+                    <div v-for="n in daysAfterLastDay" :key="`after-${n}`" class="w-full md:min-h-12 min-h-6 md:min-w-12 min-w-6"
                         aria-hidden="true" />
                 </div>
             </transition>
@@ -91,6 +113,11 @@ export interface CalendarProps {
     maxDate?: string | Date
     disabledDates?: (string | Date)[]
     highlightToday?: boolean
+    events?: Array<{
+        date: string
+        title: string
+        description?: string
+    }>
 }
 
 export interface CalendarEmits {
@@ -102,7 +129,8 @@ export interface CalendarEmits {
 const props = withDefaults(defineProps<CalendarProps>(), {
     locale: 'ru',
     firstDayOfWeek: 1,
-    highlightToday: true
+    highlightToday: true,
+    events: () => []
 })
 
 const emit = defineEmits<CalendarEmits>()
@@ -156,6 +184,7 @@ const getDisplayDate = () => {
 
 const displayDate = ref<Date>(getDisplayDate())
 const slideDirection = ref('slide-next')
+const activeDayWithPopup = ref<number | null>(null)
 
 const updateDisplayDate = () => {
     const newDisplayDate = getDisplayDate()
@@ -202,6 +231,15 @@ const normalizeDate = (date: Date): Date => {
     const normalized = new Date(date)
     normalized.setHours(0, 0, 0, 0)
     return normalized
+}
+
+const getEventsForDay = (day: number): Array<{ date: string, title: string, description?: string }> => {
+    const dateStr = formatDate(new Date(displayYear.value, displayMonthNumber.value, day))
+    return props.events.filter(event => event.date === dateStr)
+}
+
+const hasEvents = (day: number): boolean => {
+    return getEventsForDay(day).length > 0
 }
 
 
@@ -320,6 +358,46 @@ const getDayAriaLabel = (day: number): string => {
     return `${dayName}, ${day} ${displayMonth.value} ${displayYear.value}`
 }
 
+let touchTimeout: number | null = null;
+
+const handleTouchStart = (day: number) => {
+    
+    showPopup(day)
+}
+
+const handleTouchMove = (event: TouchEvent) => {
+    
+    event.preventDefault();
+}
+
+const showPopup = (day: number) => {
+    
+    if (touchTimeout) {
+        clearTimeout(touchTimeout);
+        touchTimeout = null;
+    }
+    activeDayWithPopup.value = day
+}
+
+const hidePopup = () => {
+    if (touchTimeout) clearTimeout(touchTimeout);
+    
+    touchTimeout = setTimeout(() => {
+        activeDayWithPopup.value = null;
+        touchTimeout = null;
+    }, 300); 
+}
+
+const formatDateForPopup = (day: number): string => {
+    const date = new Date(displayYear.value, displayMonthNumber.value, day)
+    return date.toLocaleDateString(props.locale, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    })
+}
+
 const emitMonthChange = () => {
     emit('month-change', {
         year: displayYear.value,
@@ -374,6 +452,30 @@ defineExpose({
 .slide-prev-leave-to {
     opacity: 0;
     transform: translateX(30px);
+}
+
+/* Стили для всплывающего окна */
+.popup-content {
+    z-index: 50;
+    background: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    min-width: 200px;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .popup-content {
+        min-width: 160px;
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
 }
 
 button[aria-selected="true"] {
