@@ -9,14 +9,16 @@
                 :class="{ 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-emerald-100': isPrevMonthDisabled }"
                 aria-label="Previous month">
                 <span class="transition-transform duration-200 group-hover:-translate-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="md:w-6 md:h-6 w-3 h-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        class="md:w-6 md:h-6 w-3 h-3">
                         <path fill="currentColor"
                             d="M9.586 4L3 10.586a2 2 0 0 0 0 2.828L9.586 20a2 2 0 0 0 2.18.434l.145-.068A2 2 0 0 0 13 18.586V16h7a2 2 0 0 0 2-2v-4l-.005-.15A2 2 0 0 0 20 8l-7-.001V5.414A2 2 0 0 0 9.586 4" />
                     </svg>
                 </span>
             </button>
 
-            <span class="md:text-xl font-bold bg-linear-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
+            <span
+                class="md:text-xl font-bold bg-linear-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
                 {{ displayMonth }} {{ displayYear }}
             </span>
 
@@ -26,7 +28,8 @@
                 :class="{ 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-emerald-100': isNextMonthDisabled }"
                 aria-label="Next month">
                 <span class="transition-transform duration-200 group-hover:translate-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="md:w-6 md:h-6 w-3 h-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        class="md:w-6 md:h-6 w-3 h-3">
                         <path fill="currentColor"
                             d="M12.089 3.634A2 2 0 0 0 11 5.414L10.999 8H4a2 2 0 0 0-2 2v4l.005.15A2 2 0 0 0 4 16l6.999-.001l.001 2.587A2 2 0 0 0 14.414 20L21 13.414a2 2 0 0 0 0-2.828L14.414 4a2 2 0 0 0-2.18-.434z" />
                     </svg>
@@ -81,20 +84,20 @@
                             <div v-else-if="isDateSelectable(day)"
                                 class="absolute inset-0 rounded-xl bg-linear-to-r from-emerald-400/20 to-teal-400/20 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
                         </button>
-
-                        <div v-if="activeDayWithPopup === day && hasEvents(day)" class="popup-content" :style="{
-                            top: popupPosition.top,
-                            left: popupPosition.left,
-                            transform: popupPosition.transform
-                        }"
-                            :class="{ 'opacity-100 visible': activeDayWithPopup === day, 'opacity-0 invisible': activeDayWithPopup !== day }">
-                            <div class="font-bold text-emerald-700 mb-1">{{ formatDateForPopup(day) }}</div>
-                            <div v-for="event in getEventsForDay(day)" :key="event.title"
-                                class="text-sm mb-1 last:mb-0">
-                                <div class="font-medium text-gray-800">{{ event.title }}</div>
-                                <div v-if="event.description" class="text-gray-600">{{ event.description }}</div>
+                        <transition name="popup" appear>
+                            <div v-if="activeDayWithPopup === day && hasEvents(day)" class="popup-content" :style="{
+                                top: popupPosition.top,
+                                left: popupPosition.left,
+                                transform: popupPosition.transform
+                            }">
+                                <div class="font-bold text-emerald-700 mb-1">{{ formatDateForPopup(day) }}</div>
+                                <div v-for="event in getEventsForDay(day)" :key="event.title"
+                                    class="text-sm mb-1 last:mb-0">
+                                    <div class="font-medium text-gray-800">{{ event.title }}</div>
+                                    <div v-if="event.description" class="text-gray-600">{{ event.description }}</div>
+                                </div>
                             </div>
-                        </div>
+                        </transition>
                     </div>
 
 
@@ -543,7 +546,6 @@ defineExpose({
     transform: translateX(30px);
 }
 
-/* Стили для всплывающего окна */
 .popup-content {
     z-index: 50;
     background: white;
@@ -553,7 +555,17 @@ defineExpose({
     border: 1px solid #e5e7eb;
     min-width: 200px;
     position: absolute;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.popup-enter-active,
+.popup-leave-active {
+    transition: all 0.3s ease;
+}
+
+.popup-enter-from,
+.popup-leave-to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
 }
 
 @media (max-width: 768px) {
