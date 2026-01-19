@@ -2,10 +2,10 @@
   <div class="min-h-screen bg-linear-to-br from-emerald-50 to-teal-50 py-12 px-4">
     <div class="max-w-7xl mx-auto">
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold bg-linear-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent mb-4">
+        <h1 class="text-xl md:text-4xl font-bold bg-linear-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent mb-4">
           Vue Calendar Component
         </h1>
-        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+        <p class="text-gray-600 md:text-lg max-w-2xl mx-auto">
           Полностью настраиваемый календарь с поддержкой локализации, диапазонов дат и анимациями.
         </p>
       </div>
@@ -13,7 +13,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2">
           <div class="bg-white rounded-2xl shadow-2xl md:p-6 p-2" >
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Демонстрация календаря</h2>
+            <h2 class="text-lg md:text-2xl font-bold text-gray-800 md:mb-6 mb-4">Демонстрация календаря</h2>
 
             <div class="mb-8">
               <Calendar ref="calendarRef" v-model="selectedDate" :locale="selectedLocale"
@@ -52,7 +52,7 @@
               <div class="bg-emerald-50 rounded-xl p-4">
                 <h3 class="font-semibold text-emerald-700 mb-2">Выбранная дата</h3>
                 <div class="flex items-center space-x-4">
-                  <div class="text-2xl font-bold text-emerald-800">
+                  <div class="text-lg md:text-2xl font-bold text-emerald-800">
                     {{ formattedSelectedDate }}
                   </div>
                   <div class="text-gray-600">
@@ -117,7 +117,7 @@
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Отключенные даты</label>
                 <div class="space-y-2">
-                  <div class="flex items-center space-x-2">
+                  <div class="flex md:items-center gap-2 md:flex-row flex-col mdd:space-x-2">
                     <input v-model="disabledDateInput" type="date"
                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" />
                     <button @click="addDisabledDate"
