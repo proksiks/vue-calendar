@@ -36,7 +36,7 @@
         </div>
 
         <div class="relative">
-            <transition name="slide" mode="out-in">
+            <transition :name="slideDirection" mode="out-in" @after-leave="resetSlideDirection">
                 <div :key="`${displayYear}-${displayMonthNumber}`" class="grid grid-cols-7 gap-2">
 
                     <div v-for="n in daysBeforeFirstDay" :key="`before-${n}`" class="min-h-12 min-w-12"
@@ -155,6 +155,7 @@ const getDisplayDate = () => {
 }
 
 const displayDate = ref<Date>(getDisplayDate())
+const slideDirection = ref('slide-next')
 
 const updateDisplayDate = () => {
     const newDisplayDate = getDisplayDate()
@@ -277,13 +278,19 @@ const isNextMonthDisabled = computed(() => {
 const handlePrevMonth = () => {
     if (isPrevMonthDisabled.value) return
 
+    slideDirection.value = 'slide-prev'
     displayDate.value = new Date(displayYear.value, displayMonthNumber.value - 1, 1)
     emitMonthChange()
+}
+
+const resetSlideDirection = () => {
+    slideDirection.value = 'slide-next'
 }
 
 const handleNextMonth = () => {
     if (isNextMonthDisabled.value) return
 
+    slideDirection.value = 'slide-next'
     displayDate.value = new Date(displayYear.value, displayMonthNumber.value + 1, 1)
     emitMonthChange()
 }
@@ -342,19 +349,31 @@ defineExpose({
 </script>
 
 <style scoped>
-.slide-enter-active,
-.slide-leave-active {
+.slide-next-enter-active,
+.slide-next-leave-active,
+.slide-prev-enter-active,
+.slide-prev-leave-active {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.slide-enter-from {
+.slide-next-enter-from {
     opacity: 0;
     transform: translateX(30px);
 }
 
-.slide-leave-to {
+.slide-next-leave-to {
     opacity: 0;
     transform: translateX(-30px);
+}
+
+.slide-prev-enter-from {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.slide-prev-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
 }
 
 button[aria-selected="true"] {
