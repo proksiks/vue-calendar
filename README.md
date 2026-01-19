@@ -17,7 +17,7 @@ Vue Calendar - это полнофункциональный календарь 
 
 ## Демо
 
-Посмотрите живое демо компонента: [https://github.com/proksiks/vue-calendar/](https://github.com/proksiks.vue-calendar/)
+Посмотрите живое демо компонента: [https://proksiks.github.io/vue-calendar/](https://proksiks.github.io/vue-calendar/)
 
 ## Установка
 

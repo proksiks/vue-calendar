@@ -3,8 +3,13 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+
+permissions:
+  contents: write  # Для записи в репозиторий при первом создании gh-pages ветки
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -32,3 +37,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
         publish_branch: gh-pages
+        force_orphan: true  # Создаст ветку gh-pages если её нет
